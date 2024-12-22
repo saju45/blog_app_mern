@@ -1,4 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import DashBoard from "./components/profile/DashBoard";
+import Favourites from "./components/profile/Favourites";
+import LikedBlogs from "./components/profile/LikedBlogs";
 import MainLayout from "./layout/MainLayout";
 import OtherLayout from "./layout/OtherLayout";
 import AdminDashboard from "./pages/admin dashboard/Page";
@@ -14,7 +17,11 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="/all-blogs" element={<AllBlogs />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />}>
+            <Route index element={<DashBoard />} />
+            <Route path="/profile/liked-blogs" element={<LikedBlogs />} />
+            <Route path="/profile/favourites" element={<Favourites />} />
+          </Route>
           <Route path="/dashboard" element={<AdminDashboard />} />
         </Route>
 
