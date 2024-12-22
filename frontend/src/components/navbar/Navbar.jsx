@@ -46,7 +46,9 @@ const Navbar = () => {
       </div>
       <div
         className={`fixed  top-0 left-0 nav-bg bg-green-500 h-screen w-full backdrop-blur-md p-8 ${
-          mobileNav ? "translate-y-[0%] flex flex-col" : "translate-y-[-100%]"
+          mobileNav
+            ? "translate-y-[0%] flex flex-col z-20"
+            : "translate-y-[-100%]"
         }  transition-all duration-300 `}
       >
         <div className="w-full flex justify-end ">

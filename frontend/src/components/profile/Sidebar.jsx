@@ -7,7 +7,7 @@ const Sidebar = () => {
     // Add more links here
   ];
   return (
-    <div className="w-[100%] border-r  flex flex-col gap-4  pr-4">
+    <div className="w-[100%]   flex flex-col gap-10 md:gap-8 lg:gap-4  pr-4">
       {sidebarLinks.map((link, index) => (
         <Link
           key={index}
