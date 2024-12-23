@@ -14,7 +14,7 @@ const BlogCard = ({ item }) => {
         <h1 className="text-2xl font-semibold">{item?.title}</h1>
         <p className="mb-4"> {item?.description.slice(0, 170)}... </p>
         <Link
-          to={`/blog/${item?._id}`}
+          to={`/blog/12`}
           className="bg-blue-600 px-4 py-2 rounded text-white hover:bg-blue-700 transition-all duration-300"
         >
           Read More
