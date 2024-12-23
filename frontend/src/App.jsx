@@ -1,4 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import AddBlog from "./components/admin components/add blog/AddBlog";
 import ADashboard from "./components/admin components/dashboard/AdminDashboard";
 import UpdateBlog from "./components/admin components/edit blog/compo/UpdateBlog";
@@ -17,6 +18,7 @@ import Home from "./pages/Home/Page";
 import Login from "./pages/Login/Page";
 import Profile from "./pages/profile/Page";
 import SignUp from "./pages/sign up/Page";
+
 function App() {
   return (
     <Router>
@@ -48,6 +50,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }

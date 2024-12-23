@@ -1,18 +1,39 @@
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const Login = () => {
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) =>
     setInputs({ ...inputs, [e.target.id]: e.target.value });
   //handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: add API call to sign up user
-    console.log(inputs);
+    try {
+      const res = await axios.post(
+        "http://localhost:1000/users/login",
+        inputs,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(res.data);
+      toast.success(res.data.message);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    } finally {
+      setInputs({ email: "", password: "" });
+    }
   };
 
   return (

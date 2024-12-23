@@ -1,5 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const SignUp = () => {
   const [inputs, setInputs] = useState({
     name: "",
@@ -7,13 +9,40 @@ const SignUp = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) =>
     setInputs({ ...inputs, [e.target.id]: e.target.value });
   //handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: add API call to sign up user
-    console.log(inputs);
+    try {
+      const response = await axios.post(
+        "http://localhost:1000/users/signup",
+        inputs,
+        {
+          headers: {
+            withCredentials: true,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      toast.success(response.data.message);
+
+      console.log(response.data);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.error);
+    } finally {
+      setInputs({
+        name: "",
+        email: "",
+        password: "",
+      });
+    }
   };
 
   return (
