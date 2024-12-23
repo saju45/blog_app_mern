@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoReorderThreeOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -11,7 +12,16 @@ const Navbar = () => {
     { name: "Login", to: "/login" },
   ];
 
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log(isLoggedIn);
+
   const [mobileNav, setMobileNav] = useState(false);
+
+  if (!isLoggedIn) {
+    links.splice(2, 1);
+  } else {
+    links.splice(3, 1);
+  }
 
   return (
     <nav className=" relative flex items-center justify-between py-4 border-b border-zinc-200">
@@ -30,13 +40,14 @@ const Navbar = () => {
             {link.name}
           </Link>
         ))}
-
-        <Link
-          to="/signup"
-          className="bg-black px-4 py-1 text-zinc-100  rounded hover:bg-blue-600 transition-all duration-300"
-        >
-          SignUp
-        </Link>
+        {!isLoggedIn && (
+          <Link
+            to="/signup"
+            className="bg-black px-4 py-1 text-zinc-100  rounded hover:bg-blue-600 transition-all duration-300"
+          >
+            SignUp
+          </Link>
+        )}
       </div>
 
       <div className="w-3/6 flex lg:hidden items-center justify-end gap-2">
@@ -68,12 +79,14 @@ const Navbar = () => {
             </Link>
           ))}
 
-          <Link
-            to="/signup"
-            className="bg-black text-3xl px-6 py-3 text-zinc-100  rounded hover:bg-blue-600 transition-all duration-300"
-          >
-            SignUp
-          </Link>
+          {!isLoggedIn && (
+            <Link
+              to="/signup"
+              className="bg-black text-3xl px-6 py-3 text-zinc-100  rounded hover:bg-blue-600 transition-all duration-300"
+            >
+              SignUp
+            </Link>
+          )}
         </div>
       </div>
     </nav>

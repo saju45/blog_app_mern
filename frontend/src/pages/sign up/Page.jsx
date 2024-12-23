@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const SignUp = () => {
@@ -10,6 +11,7 @@ const SignUp = () => {
   });
 
   const navigate = useNavigate();
+  const backendLink = useSelector((state) => state.prod.link);
 
   const handleChange = (e) =>
     setInputs({ ...inputs, [e.target.id]: e.target.value });
@@ -18,16 +20,12 @@ const SignUp = () => {
     e.preventDefault();
     // TODO: add API call to sign up user
     try {
-      const response = await axios.post(
-        "http://localhost:1000/users/signup",
-        inputs,
-        {
-          headers: {
-            withCredentials: true,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${backendLink}/users/signup`, inputs, {
+        headers: {
+          withCredentials: true,
+          "Content-Type": "application/json",
+        },
+      });
 
       toast.success(response.data.message);
 

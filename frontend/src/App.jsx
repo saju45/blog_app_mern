@@ -1,3 +1,6 @@
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AddBlog from "./components/admin components/add blog/AddBlog";
@@ -18,8 +21,29 @@ import Home from "./pages/Home/Page";
 import Login from "./pages/Login/Page";
 import Profile from "./pages/profile/Page";
 import SignUp from "./pages/sign up/Page";
-
+import { login } from "./store/auth";
 function App() {
+  const backendLink = useSelector((state) => state.prod.link);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const checkUserLoggedIn = async () => {
+      try {
+        const response = await axios.get(`${backendLink}/users/checkCookie`, {
+          withCredentials: true,
+        });
+
+        console.log(response);
+
+        if (response.data.message === true) {
+          dispatch(login());
+        }
+      } catch (error) {
+        console.log("error in checking user logged in", error);
+      }
+    };
+
+    checkUserLoggedIn();
+  }, [backendLink, dispatch]);
   return (
     <Router>
       <Routes>

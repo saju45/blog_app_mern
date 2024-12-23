@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { login } from "../../store/auth";
 
 const Login = () => {
   const [inputs, setInputs] = useState({
@@ -9,6 +11,8 @@ const Login = () => {
     password: "",
   });
 
+  const backendLink = useSelector((state) => state.prod.link);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) =>
@@ -17,16 +21,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:1000/users/login",
-        inputs,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log(res.data);
+      const res = await axios.post(`${backendLink}/users/login`, inputs, {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      });
       toast.success(res.data.message);
+      dispatch(login());
       navigate("/");
     } catch (error) {
       console.error(error);
