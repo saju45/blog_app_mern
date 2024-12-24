@@ -28,7 +28,6 @@ const ChangePasswordForm = () => {
           }
         );
 
-        console.log(response);
         toast.success(response.data.message);
         navigate("/login");
       } else {
@@ -48,7 +47,7 @@ const ChangePasswordForm = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Change account's password</h1>
+      <h1 className="text-2xl font-semibold">Change accounts password</h1>
       <form action="" className="my-8" onSubmit={handleSubmit}>
         <div className="flex flex-col mt-4">
           <label className="block text-zinc-600 text-sm font-semibold mb-2">

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import ChangePasswordForm from "./ChangePasswordForm";
 const DashBoard = () => {
   const [user, setUser] = useState({});
@@ -10,6 +11,31 @@ const DashBoard = () => {
 
   const changeImage = (e) => {
     setChangeAvater(e.target.files[0]);
+  };
+
+  const uploadProfilePic = async () => {
+    const formData = new FormData();
+    console.log("changeAvater : ", changeAvater);
+
+    formData.append("image", changeAvater);
+
+    try {
+      const response = await axios.put(
+        `${backendLink}/users/changeAvatar`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      setUser({ ...user, avatar: response.data.user.avatar });
+      toast.success(response.data.message);
+
+      setChangeAvater(null);
+    } catch (error) {
+      console.error(error);
+      console.log(error);
+      toast.error("Failed to upload image");
+    }
   };
 
   useEffect(() => {
@@ -39,9 +65,13 @@ const DashBoard = () => {
               className=" w-[100%] h-[100%] flex items-center justify-center"
               htmlFor="imgFile"
             >
-              {changeAvater ? (
+              {user && user.avatar ? (
                 <img
-                  src={URL.createObjectURL(changeAvater)}
+                  src={
+                    changeAvater
+                      ? URL.createObjectURL(changeAvater)
+                      : `${user.avatar}`
+                  }
                   alt="profile_img"
                   className="size-[100%] object-cover rounded-full"
                 />
@@ -58,7 +88,10 @@ const DashBoard = () => {
               className="mb-4 bg-zinc-900 text-white hidden"
               onChange={changeImage}
             />
-            <button className="bg-blue-700 hover:bg-blue-600 transition-all duration-200 text-center px-4 py-2 text-white rounded">
+            <button
+              className="bg-blue-700 hover:bg-blue-600 transition-all duration-200 text-center px-4 py-2 text-white rounded"
+              onClick={uploadProfilePic}
+            >
               Change Avatar
             </button>
           </div>

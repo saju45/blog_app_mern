@@ -6,8 +6,10 @@ import {
   login,
   logout,
   register,
+  updateProfilePicture,
 } from "../controller/userController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
+import upload from "../middlewares/imageUpload.js";
 
 const router = express.Router();
 
@@ -28,6 +30,14 @@ router.patch(
   authMiddleware.authVerify,
   authMiddleware.authorizeRole("user"),
   changePassword
+);
+
+router.put(
+  "/changeAvatar",
+  authMiddleware.authVerify,
+  authMiddleware.authorizeRole("user"),
+  upload.single("image"),
+  updateProfilePicture
 );
 
 export default router;

@@ -164,3 +164,24 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//update user avatar
+export const updateProfilePicture = async (req, res) => {
+  try {
+    const { path } = req.file;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { avatar: path },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Profile picture updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update profile picture" });
+  }
+};

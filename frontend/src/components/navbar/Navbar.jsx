@@ -13,7 +13,6 @@ const Navbar = () => {
   ];
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isLoggedIn);
 
   const [mobileNav, setMobileNav] = useState(false);
 
