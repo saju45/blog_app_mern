@@ -1,17 +1,45 @@
+import axios from "axios";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { login } from "../../store/auth";
 const AdminLogin = () => {
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
+  const backendLink = useSelector((state) => state.prod.link);
+  const dispatch = useDispatch();
+
   const handleChange = (e) =>
     setInputs({ ...inputs, [e.target.id]: e.target.value });
   //handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: add API call to sign up user
-    console.log(inputs);
+
+    try {
+      const response = await axios.post(
+        `${backendLink}/admin/adminLogin`,
+        inputs,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch(login());
+      toast.success(response.data.message);
+      navigate("/admin-dashboard");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.error);
+    }
   };
 
   return (

@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import connect from "./connection/connection.js";
+import adminRouter from "./routes/admin.js";
 import blogRouter from "./routes/blog.js";
+import categoryRouter from "./routes/category.js";
 import userRouter from "./routes/userRoute.js";
 const app = express();
 
@@ -16,6 +18,10 @@ dotenv.config();
 // routes
 app.use("/blogs", blogRouter);
 app.use("/users", userRouter);
+
+// admin routes
+app.use("/admin", adminRouter);
+app.use("/category", categoryRouter);
 
 // connect to MongoDB
 await connect();

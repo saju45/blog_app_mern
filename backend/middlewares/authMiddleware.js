@@ -11,6 +11,8 @@ const authMiddleware = {
       token = req.cookies.blogApp;
     }
 
+    console.log("token", token);
+
     try {
       if (!token) {
         return res.status(401).json({ message: "Token not provided" });
