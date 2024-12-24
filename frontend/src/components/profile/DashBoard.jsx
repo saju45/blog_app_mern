@@ -1,11 +1,35 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import ChangePasswordForm from "./ChangePasswordForm";
 const DashBoard = () => {
+  const [user, setUser] = useState({});
   const [changeAvater, setChangeAvater] = useState(null);
+  const backendLink = useSelector((state) => state.prod.link);
 
   const changeImage = (e) => {
     setChangeAvater(e.target.files[0]);
   };
+
+  useEffect(() => {
+    const fechUserInfo = async () => {
+      try {
+        const response = await axios.get(
+          `${backendLink}/users/getProfileData`,
+          {
+            withCredentials: true,
+          }
+        );
+        setUser(response.data.user);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fechUserInfo();
+  }, [backendLink]);
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
@@ -40,59 +64,14 @@ const DashBoard = () => {
           </div>
         </div>
         <div>
-          <p className="mt-2 text-zinc-600">shanawajsaju@gmail.com</p>
+          <p className="mt-2 text-zinc-600">{user?.email}</p>
           <h2 className="text-2xl lg:text-5xl mt-2 font-semibold">
-            Shanawaj hossain
+            {user?.name}
           </h2>
         </div>
       </div>
       <hr className="my-8" />
-      <div>
-        <h1 className="text-2xl font-semibold">Change account's password</h1>
-        <form action="" className="my-8">
-          <div className="flex flex-col mt-4">
-            <label className="block text-zinc-600 text-sm font-semibold mb-2">
-              Current Pssword
-            </label>
-            <input
-              type="password"
-              name="password"
-              className="w-full mt-2 outline-none border px-3 py-2 rounded border-zinc-400"
-              placeholder="current password"
-            />
-          </div>
-          <div className="flex flex-col mt-4">
-            <label className="block text-zinc-600 text-sm font-semibold mb-2">
-              New Pssword
-            </label>
-            <input
-              type="password"
-              name="Newpassword"
-              className="w-full mt-2 outline-none border px-3 py-2 rounded border-zinc-400"
-              placeholder="New password"
-            />
-          </div>
-          <div className="flex flex-col mt-4">
-            <label className="block text-zinc-600 text-sm font-semibold mb-2">
-              Confirm new Pssword
-            </label>
-            <input
-              type="password"
-              name="confirmNewPassword"
-              className="w-full mt-2 outline-none border px-3 py-2 rounded border-zinc-400"
-              placeholder="Confirm new password"
-            />
-          </div>
-          <div className="flex mt-8 ">
-            <button
-              type="submit"
-              className="bg-blue-700 hover:bg-blue-600 transition-all duration-200 text-center px-4 py-2 text-white rounded"
-            >
-              Update Password
-            </button>
-          </div>
-        </form>
-      </div>
+      <ChangePasswordForm />
     </div>
   );
 };
