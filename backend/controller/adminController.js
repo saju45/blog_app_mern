@@ -81,3 +81,49 @@ export const addBlog = async (req, res) => {
     res.status(500).json({ success: false, error: "Server error" });
   }
 };
+
+export const updateBlog = async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    if (!title || !description) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const updatedData = {
+      title,
+      description,
+    };
+
+    if (req.file) {
+      updatedData.image = req.file.path;
+    }
+
+    const blog = await Blog.findByIdAndUpdate(req.params.id, updatedData, {
+      new: true,
+    });
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Blog updated successfully", blog });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
+
+export const deleteBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findByIdAndDelete(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Blog deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};

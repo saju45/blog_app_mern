@@ -11,8 +11,6 @@ const Page = () => {
 
   const { id } = useParams();
 
-  console.log("favourites : ", favourites);
-
   const backendLink = useSelector((state) => state.prod.link);
 
   const favouriteHandler = async () => {
