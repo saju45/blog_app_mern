@@ -7,7 +7,6 @@ const Sidebar = () => {
   const sidebarLinks = [
     { name: "Dashboard", to: "/profile" },
     { name: "Favourites", to: "/profile/favourites" },
-    { name: "Liked Blogs", to: "/profile/liked-blogs" },
     // Add more links here
   ];
   const backendLink = useSelector((state) => state.prod.link);

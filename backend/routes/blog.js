@@ -1,19 +1,39 @@
 import express from "express";
+import {
+  addBlogToFavourite,
+  getAllBlogs,
+  getAllFavouritesBlog,
+  getRecentBlog,
+  getSingleBlog,
+  removeBlogFromFavourite,
+} from "../controller/blogController.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = express();
 
 // route to get all blogs
 
-router.get("/", async (req, res) => {
-  try {
-    // const blogs = await Blog.find({});
+router.get("/getAllBlogs", getAllBlogs);
+router.get("/getRecentBlog", getRecentBlog);
+router.get("/getBlog/:id", authMiddleware.authVerify, getSingleBlog);
+router.put(
+  "/addToFavourite/:id",
+  authMiddleware.authVerify,
+  authMiddleware.authorizeRole("user"),
+  addBlogToFavourite
+);
 
-    // res.json(blogs);
-    res.status(200).send("Get all blogs");
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Server Error");
-  }
-});
+router.put(
+  "/removeBlogFromFavourite/:id",
+  authMiddleware.authVerify,
+  authMiddleware.authorizeRole("user"),
+  removeBlogFromFavourite
+);
+
+router.get(
+  "/getFavouriteBlogs",
+  authMiddleware.authVerify,
+  getAllFavouritesBlog
+);
 
 export default router;

@@ -31,9 +31,6 @@ function App() {
         const response = await axios.get(`${backendLink}/users/checkCookie`, {
           withCredentials: true,
         });
-
-        console.log(response);
-
         if (response.data.message === true) {
           dispatch(login());
         }

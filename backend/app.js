@@ -16,7 +16,7 @@ app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 dotenv.config();
 
 // routes
-app.use("/blogs", blogRouter);
+app.use("/blog", blogRouter);
 app.use("/users", userRouter);
 
 // admin routes

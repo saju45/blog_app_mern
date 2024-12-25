@@ -62,8 +62,6 @@ const AddBlog = () => {
     }
   };
 
-  console.log("selected Category : ", selectedCategory);
-
   useEffect(() => {
     // Fetching category data
     const fetchCategories = async () => {
@@ -71,14 +69,13 @@ const AddBlog = () => {
         const res = await axios.get(`${backendLink}/category/getCategories`, {
           withCredentials: true,
         });
-        console.log(res);
         setCategories(res.data.categories);
       } catch (error) {
         console.error(error);
       }
     };
     fetchCategories();
-  }, []);
+  }, [backendLink]);
 
   return (
     <div className="p-4 mt-4 h-screen">

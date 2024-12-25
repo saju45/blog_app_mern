@@ -27,9 +27,18 @@ const userSchema = new mongoose.Schema(
     token: {
       type: String,
     },
-    tokenExpiration: {
-      type: Date,
-    },
+    favouriteBlogs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Blog",
+      },
+    ],
+    likedBlogs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Blog",
+      },
+    ],
     blogs: {
       type: Array,
       default: [],

@@ -1,34 +1,36 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import BlogCard from "../blog card/BlogCard";
 
 const RecentBlogs = () => {
-  const data = [
-    {
-      title: "New Mobile App Release",
-      img: "/blog_img.avif",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime veniam ad maiores sint sapiente distinctio nesciunt fugiat perferendis, odit et.",
-    },
-    {
-      title: "New Mobile App Release2",
-      img: "/blog_img.avif",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime veniam ad maiores sint sapiente distinctio nesciunt fugiat perferendis, odit et.",
-    },
-    {
-      title: "New Mobile App Release3",
-      img: "/blog_img.avif",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime veniam ad maiores sint sapiente distinctio nesciunt fugiat perferendis, odit et.",
-    },
-  ];
+  const [blogs, setBlogs] = useState([]);
+
+  const backendLink = useSelector((state) => state.prod.link);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get(`${backendLink}/blog/getRecentBlog`);
+        setBlogs(response.data.blogs);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBlogs();
+  }, [backendLink]);
 
   return (
     <div className="mb-4 py-4">
       <h1 className="text-xl font-semibold mb-4">Recent Blogs </h1>
       <div className="flex  flex-col gap-8 lg:gap-4">
-        {data?.map((item, i) => (
-          <div key={i} className="flex flex-col lg:flex-row gap-2 lg:gap-4">
-            <BlogCard item={item} />
+        {blogs?.map((blog) => (
+          <div
+            key={blog._id}
+            className="flex flex-col lg:flex-row gap-2 lg:gap-4"
+          >
+            <BlogCard blog={blog} />
           </div>
         ))}
       </div>

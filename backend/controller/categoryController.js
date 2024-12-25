@@ -32,3 +32,17 @@ export const getCategories = async (req, res) => {
     res.status(500).json({ success: false, error: "Server Error" });
   }
 };
+
+export const getBlogByCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const category = await Category.findById(id).populate("blogs");
+    if (!category) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+    res.status(200).json({ success: true, blogs: category.blogs });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};

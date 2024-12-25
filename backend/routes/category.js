@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addCategory,
+  getBlogByCategory,
   getCategories,
 } from "../controller/categoryController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
@@ -14,11 +15,7 @@ router.post(
   addCategory
 );
 
-router.get(
-  "/getCategories",
-  authMiddleware.authVerify,
-  authMiddleware.authorizeRole("admin"),
-  getCategories
-);
+router.get("/getCategories", authMiddleware.authVerify, getCategories);
+router.get("/getBlogByCategory/:id", getBlogByCategory);
 
 export default router;
