@@ -78,88 +78,91 @@ const AddBlog = () => {
   }, [backendLink]);
 
   return (
-    <div className="p-4 mt-4 h-screen">
-      <h1 className="text-2xl font-semibold">Add Blog</h1>
-      <form className="my-4 flex flex-col gap-4" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          className=" outline-none p-4 bg-transparent text-3xl border-b border-zinc-400 font-semibold w-full"
-          required
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <textarea
-          type="text"
-          id="description"
-          name="description"
-          className=" outline-none p-4 bg-transparent text-xl border-b border-zinc-400 font-semibold w-full"
-          required
-          placeholder="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+    <div className=" m-4 h-screen">
+      <div className="p-4 bg-white rounded shadow">
+        <h1 className="text-2xl font-semibold">Add Blog</h1>
+        <form className="my-4 flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
-            type="file"
-            className="bg-zinc-900 rounded text-white"
-            accept=".jpeg, .jpg, .png"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-          <select
+            type="text"
+            id="title"
             name="title"
-            id=""
-            className="px-4 py-2 rounded shadow"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="">Select Category</option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.title}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          {loading ? (
-            <div className="bg-blue-400 w-fit text-white text-xl rounded px-4 py-2 shadow-xl">
-              Adding blog....
-            </div>
-          ) : (
-            <button className="bg-blue-600 text-white text-xl rounded px-4 py-2 shadow-xl hover:bg-blue-700 transition-all duration-300">
-              Add Blog
+            className=" outline-none p-4 bg-transparent text-3xl border-b border-zinc-400 font-semibold w-full"
+            required
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <textarea
+            type="text"
+            id="description"
+            name="description"
+            className=" outline-none p-4 bg-transparent text-xl border-b border-zinc-400 font-semibold w-full"
+            required
+            placeholder="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <input
+              type="file"
+              className="bg-zinc-900 rounded text-white"
+              accept=".jpeg, .jpg, .png"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+            <select
+              name="title"
+              id=""
+              className="px-4 py-2 rounded shadow"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">Select Category</option>
+              {categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            {loading ? (
+              <div className="bg-blue-400 w-fit text-white text-xl rounded px-4 py-2 shadow-xl">
+                Adding blog....
+              </div>
+            ) : (
+              <button className="bg-blue-600 text-white text-xl rounded px-4 py-2 shadow-xl hover:bg-blue-700 transition-all duration-300">
+                Add Blog
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+      <div className="p-4 mt-8 bg-white rounded shadow">
+        <h1 className="  text-xl font-semibold">Add Category</h1>
+        <form
+          className="my-4 flex flex-row gap-2 mx-2"
+          onSubmit={handleCategorySubmit}
+        >
+          <input
+            type="text"
+            id="categoryTitle"
+            name="categoryTitle"
+            className="w-4/6 o px-4 py-2 bg-transparent text-xl  border-zinc-400 "
+            required
+            placeholder="Category title"
+            value={categoryTitle}
+            onChange={(e) => setCategoryTitle(e.target.value)}
+          />
+          <div>
+            <button
+              type="submit"
+              className=" bg-blue-600 text-white  rounded px-4 py-2  hover:bg-blue-700 transition-all duration-300"
+            >
+              Add Category
             </button>
-          )}
-        </div>
-      </form>
-
-      <h1 className=" mt-8 text-xl font-semibold">Add Category</h1>
-      <form
-        className="my-4 flex flex-row gap-2 mx-2"
-        onSubmit={handleCategorySubmit}
-      >
-        <input
-          type="text"
-          id="categoryTitle"
-          name="categoryTitle"
-          className="w-4/6 o px-4 py-2 bg-transparent text-xl  border-zinc-400 "
-          required
-          placeholder="Category title"
-          value={categoryTitle}
-          onChange={(e) => setCategoryTitle(e.target.value)}
-        />
-        <div>
-          <button
-            type="submit"
-            className=" bg-blue-600 text-white  rounded px-4 py-2  hover:bg-blue-700 transition-all duration-300"
-          >
-            Add Category
-          </button>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
